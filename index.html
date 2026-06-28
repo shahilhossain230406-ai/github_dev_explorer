@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>GitHub Developer Explorer</title>
+  <meta name="description" content="Explore any GitHub developer profile, repos, language stats and activity." />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap"
+    rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+  <header class="hdr">
+    <div class="hdr-in">
+      <div class="brand">
+        <svg viewBox="0 0 24 24" fill="currentColor">
+          <path
+            d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z" />
+        </svg>
+        <span class="brand-name">DevExplorer</span>
+      </div>
+      <div class="hdr-right">
+        <div class="rate-badge" id="rBadge" aria-live="polite">
+          <span class="rate-dot" id="rDot"></span>
+          <span id="rText">API: — / 60</span>
+        </div>
+        <button class="theme-btn" id="themeBtn" aria-label="Toggle theme">
+          <svg class="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="5" />
+            <line x1="12" y1="1" x2="12" y2="3" />
+            <line x1="12" y1="21" x2="12" y2="23" />
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
+            <line x1="1" y1="12" x2="3" y2="12" />
+            <line x1="21" y1="12" x2="23" y2="12" />
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
+          </svg>
+          <svg class="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z" />
+          </svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="hero-in">
+      <h1>Explore any <span class="grad">GitHub Developer</span></h1>
+      <p class="hero-sub">Profile · Repos · Language stats · Activity — all in one dashboard.</p>
+      <form id="searchForm">
+        <div class="srch-wrap">
+          <svg class="srch-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="11" cy="11" r="8" />
+            <line x1="21" y1="21" x2="16.65" y2="16.65" />
+          </svg>
+          <input id="uInput" class="srch-input" type="text" placeholder="Enter GitHub username…" autocomplete="off"
+            spellcheck="false" aria-label="GitHub username" />
+          <button type="submit" class="srch-btn"><span>Explore</span><svg viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" stroke-width="2.5">
+              <line x1="5" y1="12" x2="19" y2="12" />
+              <polyline points="12 5 19 12 12 19" />
+            </svg></button>
+        </div>
+      </form>
+      <p class="hint-row">Try: <button class="hint-btn" data-u="torvalds">torvalds</button>, <button class="hint-btn"
+          data-u="gaearon">gaearon</button>, <button class="hint-btn" data-u="addyosmani">addyosmani</button></p>
+    </div>
+    <div class="orbs">
+      <div class="orb o1"></div>
+      <div class="orb o2"></div>
+      <div class="orb o3"></div>
+    </div>
+  </section>
+
+  <div class="err-banner hidden" id="errBanner">
+    <div class="err-inner">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="12" cy="12" r="10" />
+        <line x1="12" y1="8" x2="12" y2="12" />
+        <line x1="12" y1="16" x2="12.01" y2="16" />
+      </svg>
+      <span id="errMsg"></span>
+      <button class="err-close" id="errClose">✕</button>
+    </div>
+  </div>
+
+  <main class="results hidden" id="results">
+    <section class="sec" id="profSec">
+      <div id="profContent"></div>
+    </section>
+    <div class="g2">
+      <section class="sec">
+        <div class="sec-hdr">
+          <h2 class="sec-title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="10" />
+              <polyline points="12 6 12 12 16 14" />
+            </svg>Language Breakdown</h2>
+        </div>
+        <div id="langContent"></div>
+      </section>
+      <section class="sec">
+        <div class="sec-hdr">
+          <h2 class="sec-title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />
+            </svg>Recent Activity</h2>
+        </div>
+        <div id="actContent"></div>
+      </section>
+    </div>
+    <section class="sec">
+      <div class="sec-hdr repo-hdr">
+        <h2 class="sec-title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z" />
+          </svg>Repositories</h2>
+        <div class="repo-ctrls">
+          <div class="fi-wrap">
+            <svg class="fi-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="11" cy="11" r="8" />
+              <line x1="21" y1="21" x2="16.65" y2="16.65" />
+            </svg>
+            <input id="repoFilter" class="fi" type="text" placeholder="Filter repos…"
+              aria-label="Filter repositories" />
+          </div>
+          <div class="sort-grp">
+            <button class="sort-btn active" data-sort="updated" id="sUpdated">Updated</button>
+            <button class="sort-btn" data-sort="stars" id="sStars">★ Stars</button>
+            <button class="sort-btn" data-sort="forks" id="sForks">⑂ Forks</button>
+            <button class="sort-btn" data-sort="name" id="sName">A–Z</button>
+          </div>
+        </div>
+      </div>
+      <div id="repoContent"></div>
+    </section>
+  </main>
+
+  <footer>
+    <p>Powered by the <a href="https://docs.github.com/en/rest" target="_blank" rel="noopener">GitHub REST API</a> · No
+      authentication required</p>
+    <p>Add a token: <code>localStorage.setItem('gh_token','YOUR_TOKEN')</code> for 5,000 req/hour</p>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+
+</html>
